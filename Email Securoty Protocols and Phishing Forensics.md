@@ -6,6 +6,7 @@ When an email arrives at a mail server, automated security filters evaluate spec
 1. SPF (Sender Policy Framework) or The Network Gatekeeper Mechanism:
 
 SPF is a DNS record published by a domain owner that explicitly lists the authorized IP addresses and mail servers permitted to send emails on behalf of that domain. Verification: The receiving Mail Transfer Agent extracts the sender's domain from the hidden email headers and checks its public SPF record. If the originating server's IP address is not on that authorized list, the SPF check fails.
+
 2. DKIM (DomainKeys Identified Mail) or The Digital Signature Mechanism: 
   
 DKIM provides a cryptographic authentication mechanism using public or private key cryptography. The sending mail server signs the email headers and body with a private key. Verification: The receiving server fetches the domain's public DKIM key via DNS to decrypt and verify the signature hash. If the email content, attachments, or core headers were altered or spoofed in transit, the signature validation fails, proving the message was tampered with.
@@ -20,14 +21,18 @@ DMARC unifies both SPF and DKIM by establishing a strict policy instruction for 
 **SECTION 2: Advanced Deception Frameworks (How Pro Hackers Bypass Filters)**
 **Advanced persistent threat groups look for edge cases, psychological exploits, and minor gaps in standard mail setups to deliver malicious payloads.**
 1. IDN Homograph Attack (Punycode Exploitation) The Concept: 
+
  Attackers register Internationalized Domain Names using character sets from different scripts that appear visually identical to standard Latin characters. The Mechanics: For example, the Latin character a looks identical to the Cyrillic character a. A domain like apple.com using Cyrillic a looks flawless to a human eye but is processed by the Domain Name System as a completely distinct domain. Detection: The system translates these mixed scripts into Punycode, which always begins with the prefix xn--. Text editors and modern address bars expose this prefix, immediately unmasking the spoofed domain.
  2. Header Discrepancies (From vs. Return-Path) The Concept: 
+
 Standard email architecture contains multiple fields indicating who sent the message. Scammers exploit the visual difference between what the user sees and what the server processes. The Mechanics: The From header is a user-facing string that is easily manipulated to display a legitimate brand. However, the hidden Return-Path header designates where bounce-back error logs are sent. Detection: Pro hackers frequently fail to control the Return-Path because it points back to their controlled VPS or phishing framework. Inspecting the raw email headers via Show Original exposes this mismatch immediately.
 
 **SECTION 3: Cyber Threat Intelligence and Attribution (The Hacker's Weak Points)**
 No matter how sophisticated a digital exploit is, the threat actor remains bound by human error, resource constraints, and operational limitations. Security analysts focus on these critical vulnerabilities to track down adversaries.
 
 1. OPSEC (Operational Security) Failures Temporal Patterns:
+
 Threat hunters track the exact metadata timestamps of outgoing phishing campaigns. Over weeks or months, these patterns reveal working hours, break periods, and national holidays, directly mapping the threat actor's geographical time zone. IP Leakage: Maintaining flawless anonymity over an entire campaign is incredibly difficult. Attackers eventually suffer from operational fatigue, making minor mistakes such as logging into a Command and Control server or checking testing domains just once without an active VPN tunnel, thereby exposing their true infrastructure IP to target logs.
 2. Infrastructure and Code Reuse Digital Fingerprints: 
+
 Developing unique, fully undetectable malware variations and spinning up clean server nets for every target is highly inefficient. Attackers often reuse chunks of weaponized code, specific obfuscation routines, or SSL certificates. Attribution: Security teams weaponize this laziness by defining Indicators of Compromise. When a hacker deploys a reused file hash, a known malicious registry path, or a previously observed C2 callback architecture, automated Threat Intelligence databases cross-reference the data to tie the new attack directly back to a known threat group profile.
